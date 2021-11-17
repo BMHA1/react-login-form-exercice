@@ -1,20 +1,30 @@
 import { useState } from "react"
+import { APIConsumer } from "../../../services/apiConsumer"
+
 
 const LoginPage = () => {
 
-    const [ email, setEmail ] = useState()
-    const [ password, setPassword ] = useState()
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+ 
 
-    const handleChangeEmail = (email) =>{
+    const handleChangeEmail = (email) => {
         setEmail(email)
     }
-    const handleChangePassword = (password) =>{
+    const handleChangePassword = (password) => {
         setPassword(password)
+    }
+
+    const sendinfo = async (e) => {
+        e.preventDefault()
+        let res = await APIConsumer.loginUser(email, password)
+        console.log(res)
+        localStorage.setItem("token", res)
     }
 
     return (
         <>
-            <form className="color">
+            <form onSubmit={(e) => sendinfo(e)}>
                 <fieldset>
                     <legend>Bienvenido a BMS</legend>
                     <div>
@@ -24,7 +34,7 @@ const LoginPage = () => {
                                     type='email'
                                     name='email'
                                     placeholder="Escribe aqui tu email"
-                                    onChange={(event)=>handleChangeEmail(event.target.value)}
+                                    onChange={(event) => handleChangeEmail(event.target.value)}
                                     required />
                             </label>
                         </div>
@@ -34,12 +44,12 @@ const LoginPage = () => {
                                     type='password'
                                     name='password'
                                     placeholder="Password"
-                                    onChange={(event)=> handleChangePassword(event.target.value)}
+                                    onChange={(event) => handleChangePassword(event.target.value)}
                                     required />
                             </label>
                         </div>
                     </div>
-                    <button >
+                    <button type="submit" >
                         Entrar
                     </button>
                 </fieldset>

@@ -1,30 +1,27 @@
-import { useState } from "react"
+
 import { APIConsumer } from "../../../services/apiConsumer"
 
 
 const LoginPage = () => {
 
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
- 
 
-    const handleChangeEmail = (email) => {
-        setEmail(email)
-    }
-    const handleChangePassword = (password) => {
-        setPassword(password)
-    }
-
-    const sendinfo = async (e) => {
+    const handleSendData = async (e) => {
         e.preventDefault()
-        let res = await APIConsumer.loginUser(email, password)
-        console.log(res)
-        localStorage.setItem("token", res)
+        let email = e.target.email.value
+        let password = e.target.password.value
+        try {
+            let res = await APIConsumer.loginUser(email, password)
+            console.log(res)
+            localStorage.setItem("token", res)
+
+        } catch (error) {
+            alert(error)
+        }
     }
 
     return (
         <>
-            <form onSubmit={(e) => sendinfo(e)}>
+            <form onSubmit={(e) => handleSendData(e)}>
                 <fieldset>
                     <legend>Bienvenido a BMS</legend>
                     <div>
@@ -34,7 +31,7 @@ const LoginPage = () => {
                                     type='email'
                                     name='email'
                                     placeholder="Escribe aqui tu email"
-                                    onChange={(event) => handleChangeEmail(event.target.value)}
+
                                     required />
                             </label>
                         </div>
@@ -44,19 +41,17 @@ const LoginPage = () => {
                                     type='password'
                                     name='password'
                                     placeholder="Password"
-                                    onChange={(event) => handleChangePassword(event.target.value)}
                                     required />
                             </label>
                         </div>
                     </div>
-                    <button type="submit" >
-                        Entrar
-                    </button>
                 </fieldset>
+                <button type="onSubmit" >
+                    Entrar
+                </button>
             </form>
         </>
     )
-
 }
 
 export default LoginPage

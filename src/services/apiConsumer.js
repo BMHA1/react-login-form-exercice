@@ -18,18 +18,25 @@ export const APIConsumer = {
     },
 
     loginUser: async (email, password) => {
+        console.log(email)
+        console.log(password)
         try {
-            const result = await fetch(`http://localhost:4000/usuario/login`, {
+            let result = await fetch(`http://localhost:4000/usuario/login`, {
                 method: "POST",
-                body: {
-                    "email": email,
-                    "contrasenia": password
+                body:{
+                    mail: email,
+                    password: password 
                 }
+
+                
             })
             return await result.json()
 
-        } catch (e) {
-            console.log(e)
+           // return result
+
+        } catch (error) {
+            
+            console.log(error)
         }
 
     }
